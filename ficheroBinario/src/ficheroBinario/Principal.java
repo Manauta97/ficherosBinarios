@@ -44,6 +44,7 @@ public class Principal {
 		
 		calculoprecio(vVentas);
 		
+		IoDatos.numeroClientes(vVentas);
 	}
 
 }

@@ -69,7 +69,7 @@ public class IoDatos {
 		Ventas[] vVentas = new Ventas[20];
 
 		File fichero = new File("datos/ventas.dat");
-		
+
 		if (!fichero.exists()) {
 			try {
 				fichero.createNewFile();
@@ -78,24 +78,61 @@ public class IoDatos {
 				e.printStackTrace();
 			}
 		}
-		
+
 		try {
 			fi = new FileInputStream(fichero);
 			di = new DataInputStream(fi);
 
-			for (int i=0; ;i++) {
-				vVentas[i]= new Ventas(di.readUTF(), di.readInt(), di.readInt(), di.readDouble());
+			for (int i = 0;; i++) {
+				vVentas[i] = new Ventas(di.readUTF(), di.readInt(), di.readInt(), di.readDouble());
 			}
-			
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			System.out.println("Fin de lectura del disco");
 		}
 
 		return vVentas;
+	}
+
+	public static void numeroClientes(Ventas[] vVentas) {
+		boolean bandera = false;
+		int cont = 0;
+		
+		String[] vNombre = new String[vVentas.length];
+		
+		for (Ventas ventas : vVentas) {
+			bandera = false;
+			if (ventas != null) {
+				for (String nom : vNombre) {
+					if (nom != null && nom.equalsIgnoreCase(ventas.getCliente())) {
+						bandera = true;
+						break;
+					}
+				}
+				if (!bandera) {
+					for (int i = 0; i < vNombre.length; i++) {
+						if (vNombre[i]==null) {
+							vNombre[i] = ventas.getCliente();
+							break;
+						}
+					}
+				}
+
+			}
+		}
+		
+		
+		for (int i = 0; i < vNombre.length; i++) {
+			if (vNombre[i] != null) {
+				cont++;
+			}	
+		}
+		System.out.println("El número de clientes diferentes es: "+cont);
+
 	}
 }
